@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "nome": "Liza",
+        "idade": 17,
+        "email": "aangellxz2008",
+        "salario": 50.300
+    },
+
+    {
+        "id": 2,
+        "nome": "Ângela dos Santos",
+        "idade": 20,
+        "email": "angela_s_aguiar",
+        "salario": 70.500
+    }
+]
