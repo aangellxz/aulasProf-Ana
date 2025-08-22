@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endereço por CEP</title>
+</head>
+<body>
+    <h1>Consultar Endereço poe CEP</h1>
+    <input type="text" id="cep" placeholder="Digite o CEP"/>
+    <button onclick="buscarCEP()">Buscar</button>
+    <span id="resultado"></span>
+
+
+    <h1>Dados do seu cep</h1>
+     <p> <strong>logradouro:</strong> </p><span id="logradouro"></span> <br>
+     <p><strong>Bairro:</strong></p><span id="bairro"></span> <br>
+     <p><strong>localidade:</strong></p><span id="localidade"></span> <br>
+     <p><strong>UF:</strong></p><span id="uf"></span> <br>
+    <script>
+        function buscarCEP(){
+            const cep = document.getElementById('cep').value;
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(res => res.json())
+            .then(json =>{
+                console.log(json.logradouro) 
+                console.log(json.bairro) 
+                console.log(json.localidade) 
+                console.log(json.uf)
+                document.getElementById("logradouro").innerText = json.logradouro
+                document.getElementById("bairro").innerText = json.bairro
+                document.getElementById("localidade").innerText = json.localidade
+                document.getElementById("uf").innerText = json.uf
+                    // .innerText = JSON.stringify(json, null, 2)
+            })
+        }
+    </script>
+    
+</body>
+</html>
