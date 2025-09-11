@@ -19,8 +19,8 @@ router.post('/', async (req, res) => {
     const { nome, email } = req.body;
     if (!nome || !email) return res.status(400).json({ erro: 'Nome e email obrigatórios' });
 
-    try {
-        const [result] = await db.query('INSERT INTO usuario (nome, email, datahora_cadastro, datahora_atualizado) VALUES (?, ?, NOW(), NOW())', [nome, email]);
+    try { //, email, datahora_cadastro, datahora_atualizado
+        const [result] = await db.query('INSERT INTO usuario (nome, email) VALUES (?, ?)', [nome, email]);
         res.status(201).json({ mensagem: 'Usuário cadastrado!', id: result.insertId });
     } catch (err) {
         console.error(err);
