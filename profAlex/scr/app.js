@@ -80,3 +80,44 @@ app.put("/usuarios/:id", async (req, res) =>{
 app.listen(3000, () => {
     console.log(`Servidor rodando na porta: 3000`)
 });
+
+
+// REGISTRAR USUÁRIO
+
+
+app.post("/registrar", async(req,res) =>{
+    try{
+        const {body} = req
+         const [results] = await pool.query(
+        'INSERT INTO usuario (nome_usuario, idade_usuario, email_usuario, senha_usuario) VALUES(?, ?, ?, ?)',
+       [body.nome, body.idade, body.email, body.senha]
+    ); 
+    const [usuarioRegistrado] = await pool.query(
+        "SELECT * FROM usuario WHERE id_usuario=?",
+        results.insertId
+    )
+
+    res.status(201).json(usuarioRegistrado)
+    
+}catch(error){
+        console.log(error)
+     }
+} );
+
+// LOGAR USUÁRIO
+
+app.post("/login", async (req, res) => {
+try {
+const { body } = req;
+const [results]= await pool.query(
+"SELECT * FROM usuario WHERE usuario.senha_usuario = ? AND usuario.email_usuario = ?",
+       [body.senha, body.email]                                                         
+
+);
+if(results.length > 0) res.status(200).json(`Usuario ${results[0].nome} logado com sucesso`)
+else res.status(404).json("Usuario não encontrado")
+
+} catch (error) {
+console.error(error);
+}
+});
