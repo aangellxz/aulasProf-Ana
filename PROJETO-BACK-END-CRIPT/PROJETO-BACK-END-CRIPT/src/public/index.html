@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Usuário</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card shadow">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Cadastro de Usuário</h4>
+        </div>
+        <div class="card-body">
+            <form id="formCadastro">
+            <!-- Nome -->
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" placeholder="Digite o nome completo" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="email" placeholder="exemplo@senai.com" required>
+            </div>
+            
+            <!-- SENHA -->
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" required>
+            </div>
+
+            <!-- CPF -->
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF</label>
+                <input type="text" class="form-control" id="cpf" placeholder="Somente números" required>
+            </div>
+
+            <!-- Ativo -->
+            <div class="mb-3">
+                <label for="ativo" class="form-label">Ativo</label>
+                <select id="ativo" class="form-select" required>
+                <option value="1">Ativo</option>
+                <option value="0">Inativo</option>
+                </select>
+            </div>
+
+            <!-- Nível -->
+            <div class="mb-3">
+                <label for="nivel" class="form-label">Nível de Acesso</label>
+                <select id="nivel" class="form-select" required>
+                <option value="1">Administrador</option>
+                <option value="2">Gerente</option>
+                <option value="3">Usuário</option>
+                </select>
+            </div>
+
+            <!-- Botão -->
+            <button type="submit" class="btn btn-success w-100">Cadastrar</button>
+            </form>
+        </div>
+        </div>
+    </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script para enviar para sua API -->
+    <script>
+        document.getElementById("formCadastro").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const usuario = {
+                nome: document.getElementById("nome").value,
+                email: document.getElementById("email").value,
+                cpf: document.getElementById("cpf").value,
+                senha: document.getElementById("senha").value,
+                ativo: document.getElementById("ativo").value,
+                nivel: document.getElementById("nivel").value,
+            };
+
+            try {
+                const response = await fetch("http://localhost:3000/usuarios", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(usuario),
+                });
+
+                const data = await response.json();
+                alert("Usuário cadastrado com sucesso!");
+                document.getElementById("formCadastro").reset();
+            } catch (error) {
+                alert("Erro ao cadastrar usuário!");
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

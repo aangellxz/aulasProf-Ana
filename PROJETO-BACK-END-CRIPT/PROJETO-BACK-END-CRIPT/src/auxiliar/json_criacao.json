@@ -1,0 +1,24 @@
+[
+    {
+        "nome": "Paulo Henrique",
+        "email": "paulo.henrique@senai.com",
+        "cpf": "33344455566",
+        "ativo": 0,
+        "nivel": 2
+    },
+    {
+        "nome": "Fernanda Alves",
+        "email": "fernanda.alves@senai.com",
+        "cpf": "44455566677",
+        "ativo": 1,
+        "nivel": 1
+    },
+    {
+        "nome": "Rafael Martins",
+        "email": "rafael.martins@senai.com",
+        "cpf": "55566677788",
+        "ativo": 1,
+        "nivel": 3
+    }
+]
+  
