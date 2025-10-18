@@ -128,8 +128,24 @@ app.get("/logs", async (req, res) => {
   const offset = pagina * quantidade
 
   const [results] = await pool.query(`
-    SELECT * FROM lgs LIMIT ?
-    OFFSET ?;
+  SELECT 
+  lgs.id,lgs.categoria,
+  lgs.horas_trabalhadas,
+  lgs.linhas_codigo,
+  lgs.bugs_corrigidos, 
+  (SELECT COUNT (*)
+  FROM devhub.like
+  WHERE devhub.like.id_log = lgs.id) AS likes,
+  (SELECT COUNT (*)
+  FROM devhub.comment
+  WHERE devhub.comment.id_log = lgs.id) AS qnt_comments
+  FROM 
+  devhub.lgs 
+  ORDER BY
+  lgs.id ASC
+
+LIMIT ? 
+OFFSET ?
     `, [quantidade, offset]);
   res.send(results);
 });
@@ -159,3 +175,22 @@ app.post("/logs", async (req, res) => {
 app.listen(3000, () => {
   console.log(`Servidor rodando na porta: 3000`);
 });
+
+// LIKES 
+
+app.post("/likes", async (req, res) => {
+  try {
+  const { body } = req;
+  const [results] = await pool.query(
+  "INSERT INTO likes(lgs_id, usuario_id) VALUES (?, ?)",
+   [body.log_id, body.user_id]
+  );
+  const [likesCriados] = await pool.query(
+  "SELECT * FROM likes WHERE id=?",
+  results.insertId
+  );
+  res.status(201).json(likesCriados);
+  } catch (error) {
+  console.log(error);
+  }
+  });
