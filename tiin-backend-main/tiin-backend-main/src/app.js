@@ -154,12 +154,13 @@ app.post("/logs", async (req, res) => {
   try {
     const { body } = req;
     const [results] = await pool.query(
-      "INSERT INTO lgs(categoria, horas_trabalhadas, linhas_codigo, bugs_corrigidos) VALUES (?, ?, ?, ?)",
+      "INSERT INTO lgs(categoria, horas_trabalhadas, linhas_codigo, bugs_corrigidos, id_usuario ) VALUES (?, ?, ?, ?, ?)",
       [
         body.categoria,
         body.horas_trabalhadas,
         body.linhas_codigo,
         body.bugs_corrigidos,
+        body.id_usuario
       ]
     );
     const [logCriado] = await pool.query(
