@@ -135,10 +135,10 @@ app.get("/logs", async (req, res) => {
   lgs.bugs_corrigidos, 
   (SELECT COUNT (*)
   FROM devhub.like
-  WHERE devhub.like.id_log = lgs.id) AS likes,
+  WHERE devhub.like.id_lgs = lgs.id) AS likes,
   (SELECT COUNT (*)
   FROM devhub.comment
-  WHERE devhub.comment.id_log = lgs.id) AS qnt_comments
+  WHERE devhub.comment.lgs_id = lgs.id) AS qnt_comments
   FROM 
   devhub.lgs 
   ORDER BY
@@ -193,4 +193,22 @@ app.post("/likes", async (req, res) => {
   } catch (error) {
   console.log(error);
   }
+  });
+
+
+  // Deletar like e comentário
+
+  app.delete("/likes", async (req, res) => {
+    try {
+      const { query } = req;
+      const id_usuario = Number(query.user_id)
+      const id_lgs = Number(query.id_lgs)
+      const [results] = await pool.query(
+        "DELETE FROM `like` WHERE id_lgs=? and id_user=?",
+        [id_usuario, id_lgs]
+      );
+      res.status(200).send("Like deletado!", results);
+    } catch (error) {
+      console.log(error);
+    }
   });
