@@ -213,3 +213,21 @@ app.post("/likes", async (req, res) => {
       console.log(error);
     }
   });
+
+  // Total de horas trabalhadas por usuário, logs por usuario e bugs por usuario
+  app.get("/metrica-usuario/:id", async(req, res)=> {
+   try{
+    const {id} = req.params;
+    const [results] = await pool.query(
+        `SELECT  count(lgs.id) AS qtd_lgs, sum(horas_trabalhadas) AS qtd_horas_trabalhadas, sum(bugs_corrigidos) AS qtd_bugs_corrigidos, usuario.nome FROM lgs JOIN usuario ON lgs.id_usuario = usuario.id WHERE id_usuario=?;`,
+        [id]
+    );
+    console.log(results)
+    res.status(200).send(results)
+   }
+   catch (error) {
+    console.log(error);
+  }
+  });
+
+ 
